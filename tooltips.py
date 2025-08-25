@@ -33,5 +33,6 @@ tooltips = {
     "characters_involved": "本章需要重点描写或影响剧情的角色名单。",
     "key_items": "在本章中出现的重要道具、线索或物品。",
     "scene_location": "本章主要发生的地点或场景描述。",
-    "time_constraint": "本章剧情中涉及的时间压力或时限设置。"
+    "time_constraint": "本章剧情中涉及的时间压力或时限设置。",
+    "interface_config": "选择你要使用的AI接口配置。"
 }

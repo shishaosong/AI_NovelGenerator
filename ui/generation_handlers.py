@@ -32,13 +32,23 @@ def generate_novel_architecture_ui(self):
 
         self.disable_button_safe(self.btn_generate_architecture)
         try:
-            interface_format = self.interface_format_var.get().strip()
-            api_key = self.api_key_var.get().strip()
-            base_url = self.base_url_var.get().strip()
-            model_name = self.model_name_var.get().strip()
-            temperature = self.temperature_var.get()
-            max_tokens = self.max_tokens_var.get()
-            timeout_val = self.safe_get_int(self.timeout_var, 600)
+            # interface_format = self.interface_format_var.get().strip()
+            # api_key = self.api_key_var.get().strip()
+            # base_url = self.base_url_var.get().strip()
+            # model_name = self.model_name_var.get().strip()
+            # temperature = self.temperature_var.get()
+            # max_tokens = self.max_tokens_var.get()
+            # timeout_val = self.safe_get_int(self.timeout_var, 600)
+
+            interface_format = self.loaded_config["llm_configs"][self.architecture_llm_var.get()]["interface_format"]
+            api_key = self.loaded_config["llm_configs"][self.architecture_llm_var.get()]["api_key"]
+            base_url = self.loaded_config["llm_configs"][self.architecture_llm_var.get()]["base_url"]
+            model_name = self.loaded_config["llm_configs"][self.architecture_llm_var.get()]["model_name"]
+            temperature = self.loaded_config["llm_configs"][self.architecture_llm_var.get()]["temperature"]
+            max_tokens = self.loaded_config["llm_configs"][self.architecture_llm_var.get()]["max_tokens"]
+            timeout_val = self.loaded_config["llm_configs"][self.architecture_llm_var.get()]["timeout"]
+
+
 
             topic = self.topic_text.get("0.0", "end").strip()
             genre = self.genre_var.get().strip()
@@ -82,14 +92,24 @@ def generate_chapter_blueprint_ui(self):
             return
         self.disable_button_safe(self.btn_generate_directory)
         try:
-            interface_format = self.interface_format_var.get().strip()
-            api_key = self.api_key_var.get().strip()
-            base_url = self.base_url_var.get().strip()
-            model_name = self.model_name_var.get().strip()
+            # interface_format = self.interface_format_var.get().strip()
+            # api_key = self.api_key_var.get().strip()
+            # base_url = self.base_url_var.get().strip()
+            # model_name = self.model_name_var.get().strip()
             number_of_chapters = self.safe_get_int(self.num_chapters_var, 10)
-            temperature = self.temperature_var.get()
-            max_tokens = self.max_tokens_var.get()
-            timeout_val = self.safe_get_int(self.timeout_var, 600)
+            # temperature = self.temperature_var.get()
+            # max_tokens = self.max_tokens_var.get()
+            # timeout_val = self.safe_get_int(self.timeout_var, 600)
+
+            interface_format = self.loaded_config["llm_configs"][self.chapter_outline_llm_var.get()]["interface_format"]
+            api_key = self.loaded_config["llm_configs"][self.chapter_outline_llm_var.get()]["api_key"]
+            base_url = self.loaded_config["llm_configs"][self.chapter_outline_llm_var.get()]["base_url"]
+            model_name = self.loaded_config["llm_configs"][self.chapter_outline_llm_var.get()]["model_name"]
+            temperature = self.loaded_config["llm_configs"][self.chapter_outline_llm_var.get()]["temperature"]
+            max_tokens = self.loaded_config["llm_configs"][self.chapter_outline_llm_var.get()]["max_tokens"]
+            timeout_val = self.loaded_config["llm_configs"][self.chapter_outline_llm_var.get()]["timeout"]
+
+
             user_guidance = self.user_guide_text.get("0.0", "end").strip()  # 新增获取用户指导
 
             self.safe_log("开始生成章节蓝图...")
@@ -121,13 +141,22 @@ def generate_chapter_draft_ui(self):
     def task():
         self.disable_button_safe(self.btn_generate_chapter)
         try:
-            interface_format = self.interface_format_var.get().strip()
-            api_key = self.api_key_var.get().strip()
-            base_url = self.base_url_var.get().strip()
-            model_name = self.model_name_var.get().strip()
-            temperature = self.temperature_var.get()
-            max_tokens = self.max_tokens_var.get()
-            timeout_val = self.safe_get_int(self.timeout_var, 600)
+            # interface_format = self.interface_format_var.get().strip()
+            # api_key = self.api_key_var.get().strip()
+            # base_url = self.base_url_var.get().strip()
+            # model_name = self.model_name_var.get().strip()
+            # temperature = self.temperature_var.get()
+            # max_tokens = self.max_tokens_var.get()
+            # timeout_val = self.safe_get_int(self.timeout_var, 600)
+
+            interface_format = self.loaded_config["llm_configs"][self.prompt_draft_llm_var.get()]["interface_format"]
+            api_key = self.loaded_config["llm_configs"][self.prompt_draft_llm_var.get()]["api_key"]
+            base_url = self.loaded_config["llm_configs"][self.prompt_draft_llm_var.get()]["base_url"]
+            model_name = self.loaded_config["llm_configs"][self.prompt_draft_llm_var.get()]["model_name"]
+            temperature = self.loaded_config["llm_configs"][self.prompt_draft_llm_var.get()]["temperature"]
+            max_tokens = self.loaded_config["llm_configs"][self.prompt_draft_llm_var.get()]["max_tokens"]
+            timeout_val = self.loaded_config["llm_configs"][self.prompt_draft_llm_var.get()]["timeout"]
+
 
             chap_num = self.safe_get_int(self.chapter_num_var, 1)
             word_number = self.safe_get_int(self.word_number_var, 3000)
@@ -312,13 +341,22 @@ def finalize_chapter_ui(self):
 
         self.disable_button_safe(self.btn_finalize_chapter)
         try:
-            interface_format = self.interface_format_var.get().strip()
-            api_key = self.api_key_var.get().strip()
-            base_url = self.base_url_var.get().strip()
-            model_name = self.model_name_var.get().strip()
-            temperature = self.temperature_var.get()
-            max_tokens = self.max_tokens_var.get()
-            timeout_val = self.safe_get_int(self.timeout_var, 600)
+            # interface_format = self.interface_format_var.get().strip()
+            # api_key = self.api_key_var.get().strip()
+            # base_url = self.base_url_var.get().strip()
+            # model_name = self.model_name_var.get().strip()
+            # temperature = self.temperature_var.get()
+            # max_tokens = self.max_tokens_var.get()
+            # timeout_val = self.safe_get_int(self.timeout_var, 600)
+
+            interface_format = self.loaded_config["llm_configs"][self.final_chapter_llm_var.get()]["interface_format"]
+            api_key = self.loaded_config["llm_configs"][self.final_chapter_llm_var.get()]["api_key"]
+            base_url = self.loaded_config["llm_configs"][self.final_chapter_llm_var.get()]["base_url"]
+            model_name = self.loaded_config["llm_configs"][self.final_chapter_llm_var.get()]["model_name"]
+            temperature = self.loaded_config["llm_configs"][self.final_chapter_llm_var.get()]["temperature"]
+            max_tokens = self.loaded_config["llm_configs"][self.final_chapter_llm_var.get()]["max_tokens"]
+            timeout_val = self.loaded_config["llm_configs"][self.final_chapter_llm_var.get()]["timeout"]
+
 
             embedding_api_key = self.embedding_api_key_var.get().strip()
             embedding_url = self.embedding_url_var.get().strip()
@@ -392,13 +430,22 @@ def do_consistency_check(self):
     def task():
         self.disable_button_safe(self.btn_check_consistency)
         try:
-            api_key = self.api_key_var.get().strip()
-            base_url = self.base_url_var.get().strip()
-            model_name = self.model_name_var.get().strip()
-            temperature = self.temperature_var.get()
-            interface_format = self.interface_format_var.get()
-            max_tokens = self.max_tokens_var.get()
-            timeout = self.timeout_var.get()
+            # api_key = self.api_key_var.get().strip()
+            # base_url = self.base_url_var.get().strip()
+            # model_name = self.model_name_var.get().strip()
+            # temperature = self.temperature_var.get()
+            # interface_format = self.interface_format_var.get()
+            # max_tokens = self.max_tokens_var.get()
+            # timeout = self.timeout_var.get()
+
+            interface_format = self.loaded_config["llm_configs"][self.consistency_review_llm_var.get()]["interface_format"]
+            api_key = self.loaded_config["llm_configs"][self.consistency_review_llm_var.get()]["api_key"]
+            base_url = self.loaded_config["llm_configs"][self.consistency_review_llm_var.get()]["base_url"]
+            model_name = self.loaded_config["llm_configs"][self.consistency_review_llm_var.get()]["model_name"]
+            temperature = self.loaded_config["llm_configs"][self.consistency_review_llm_var.get()]["temperature"]
+            max_tokens = self.loaded_config["llm_configs"][self.consistency_review_llm_var.get()]["max_tokens"]
+            timeout = self.loaded_config["llm_configs"][self.consistency_review_llm_var.get()]["timeout"]
+
 
             chap_num = self.safe_get_int(self.chapter_num_var, 1)
             chap_file = os.path.join(filepath, "chapters", f"chapter_{chap_num}.txt")
