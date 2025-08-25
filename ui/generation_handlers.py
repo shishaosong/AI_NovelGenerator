@@ -32,13 +32,7 @@ def generate_novel_architecture_ui(self):
 
         self.disable_button_safe(self.btn_generate_architecture)
         try:
-            # interface_format = self.interface_format_var.get().strip()
-            # api_key = self.api_key_var.get().strip()
-            # base_url = self.base_url_var.get().strip()
-            # model_name = self.model_name_var.get().strip()
-            # temperature = self.temperature_var.get()
-            # max_tokens = self.max_tokens_var.get()
-            # timeout_val = self.safe_get_int(self.timeout_var, 600)
+
 
             interface_format = self.loaded_config["llm_configs"][self.architecture_llm_var.get()]["interface_format"]
             api_key = self.loaded_config["llm_configs"][self.architecture_llm_var.get()]["api_key"]
@@ -92,14 +86,8 @@ def generate_chapter_blueprint_ui(self):
             return
         self.disable_button_safe(self.btn_generate_directory)
         try:
-            # interface_format = self.interface_format_var.get().strip()
-            # api_key = self.api_key_var.get().strip()
-            # base_url = self.base_url_var.get().strip()
-            # model_name = self.model_name_var.get().strip()
+
             number_of_chapters = self.safe_get_int(self.num_chapters_var, 10)
-            # temperature = self.temperature_var.get()
-            # max_tokens = self.max_tokens_var.get()
-            # timeout_val = self.safe_get_int(self.timeout_var, 600)
 
             interface_format = self.loaded_config["llm_configs"][self.chapter_outline_llm_var.get()]["interface_format"]
             api_key = self.loaded_config["llm_configs"][self.chapter_outline_llm_var.get()]["api_key"]
@@ -141,13 +129,6 @@ def generate_chapter_draft_ui(self):
     def task():
         self.disable_button_safe(self.btn_generate_chapter)
         try:
-            # interface_format = self.interface_format_var.get().strip()
-            # api_key = self.api_key_var.get().strip()
-            # base_url = self.base_url_var.get().strip()
-            # model_name = self.model_name_var.get().strip()
-            # temperature = self.temperature_var.get()
-            # max_tokens = self.max_tokens_var.get()
-            # timeout_val = self.safe_get_int(self.timeout_var, 600)
 
             interface_format = self.loaded_config["llm_configs"][self.prompt_draft_llm_var.get()]["interface_format"]
             api_key = self.loaded_config["llm_configs"][self.prompt_draft_llm_var.get()]["api_key"]
@@ -341,13 +322,6 @@ def finalize_chapter_ui(self):
 
         self.disable_button_safe(self.btn_finalize_chapter)
         try:
-            # interface_format = self.interface_format_var.get().strip()
-            # api_key = self.api_key_var.get().strip()
-            # base_url = self.base_url_var.get().strip()
-            # model_name = self.model_name_var.get().strip()
-            # temperature = self.temperature_var.get()
-            # max_tokens = self.max_tokens_var.get()
-            # timeout_val = self.safe_get_int(self.timeout_var, 600)
 
             interface_format = self.loaded_config["llm_configs"][self.final_chapter_llm_var.get()]["interface_format"]
             api_key = self.loaded_config["llm_configs"][self.final_chapter_llm_var.get()]["api_key"]
@@ -430,14 +404,6 @@ def do_consistency_check(self):
     def task():
         self.disable_button_safe(self.btn_check_consistency)
         try:
-            # api_key = self.api_key_var.get().strip()
-            # base_url = self.base_url_var.get().strip()
-            # model_name = self.model_name_var.get().strip()
-            # temperature = self.temperature_var.get()
-            # interface_format = self.interface_format_var.get()
-            # max_tokens = self.max_tokens_var.get()
-            # timeout = self.timeout_var.get()
-
             interface_format = self.loaded_config["llm_configs"][self.consistency_review_llm_var.get()]["interface_format"]
             api_key = self.loaded_config["llm_configs"][self.consistency_review_llm_var.get()]["api_key"]
             base_url = self.loaded_config["llm_configs"][self.consistency_review_llm_var.get()]["base_url"]
