@@ -89,6 +89,11 @@ class NovelGeneratorGUI:
         self.temperature_var = ctk.DoubleVar(value=llm_conf.get("temperature", 0.7))
         self.max_tokens_var = ctk.IntVar(value=llm_conf.get("max_tokens", 8192))
         self.timeout_var = ctk.IntVar(value=llm_conf.get("timeout", 600))
+        self.core_seed_llm_var = ctk.StringVar(value="DeepSeek")
+        self.role_dynamics_llm_var = ctk.StringVar(value="DeepSeek")
+        self.world_building_llm_var = ctk.StringVar(value="DeepSeek")
+        self.three_scene_llm_var = ctk.StringVar(value="DeepSeek")
+
 
         # -- Embedding相关 --
         self.embedding_interface_format_var = ctk.StringVar(value=last_embedding)

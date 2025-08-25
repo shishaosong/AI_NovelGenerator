@@ -117,7 +117,7 @@ def enrich_chapter_text(
         max_tokens=max_tokens,
         timeout=timeout
     )
-    prompt = f"""以下章节文本较短，请在保持剧情连贯的前提下进行扩写，使其更充实，接近 {word_number} 字左右：
+    prompt = f"""以下章节文本较短，请在保持剧情连贯的前提下进行扩写，使其更充实，接近 {word_number} 字左右，仅给出最终文本，不要解释任何内容。：
 原内容：
 {chapter_text}
 """

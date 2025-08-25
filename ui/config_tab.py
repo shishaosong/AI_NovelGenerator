@@ -41,9 +41,12 @@ def build_config_tabview(self):
 
     self.ai_config_tab = self.config_tabview.add("LLM Model settings")
     self.embeddings_config_tab = self.config_tabview.add("Embedding settings")
+    self.config_choose = self.config_tabview.add("Config choose")
+
 
     build_ai_config_tab(self)
     build_embeddings_config_tab(self)
+    build_config_choose_tab(self)
 
     # 底部的"保存配置"和"加载配置"按钮
     self.btn_frame_config = ctk.CTkFrame(self.config_frame)
@@ -203,7 +206,7 @@ def build_embeddings_config_tab(self):
     emb_api_key_entry.grid(row=0, column=1, padx=5, pady=5, sticky="nsew")
 
     # 2) Embedding 接口格式
-    create_label_with_help(self, parent=self.embeddings_config_tab, label_text="Embedding 接口格式:", tooltip_key="embedding_interface_format", row=1, column=0, font=("Microsoft YaHei", 12))
+    create_label_with_help(self, parent=self.embeddings_config_tab, label_text="Embedding 接口格式:", tooltip_key="embedding_intexrface_format", row=1, column=0, font=("Microsoft YaHei", 12))
 
     emb_interface_options = ["DeepSeek", "OpenAI", "Azure OpenAI", "Gemini", "Ollama", "ML Studio","SiliconFlow"]
 
@@ -228,6 +231,45 @@ def build_embeddings_config_tab(self):
     # 添加测试按钮
     test_btn = ctk.CTkButton(self.embeddings_config_tab, text="测试配置", command=self.test_embedding_config, font=("Microsoft YaHei", 12))
     test_btn.grid(row=5, column=0, columnspan=2, padx=5, pady=5, sticky="ew")
+
+def build_config_choose_tab(self):
+    def on_core_seed_llm_changed(new_value):
+        self.core_seed_llm_var.set(new_value)
+        config_data = load_config(self.config_file)
+        if config_data:
+            config_data["core_seed_llm"] = new_value
+            save_config(config_data, self.config_file)
+
+    self.config_choose.grid_rowconfigure(0, weight=0)
+    self.config_choose.grid_columnconfigure(0, weight=0)
+    self.config_choose.grid_columnconfigure(1, weight=1)
+
+    create_label_with_help(self, parent=self.config_choose, label_text="生成核心种子所用大模型", tooltip_key="core_seed_llm_config", row=0, column=0, font=("Microsoft YaHei", 12))
+    core_seed_options = ["DeepSeek", "阿里云百炼", "OpenAI", "Azure OpenAI", "Azure AI", "Ollama", "ML Studio", "Gemini", "火山引擎", "硅基流动", "Grok"]
+    core_seed_dropdown = ctk.CTkOptionMenu(self.config_choose, values=core_seed_options, variable=self.core_seed_llm_var, font=("Microsoft YaHei", 12), command=on_core_seed_llm_changed)
+    core_seed_dropdown.grid(row=0, column=1, padx=5, pady=5, sticky="nsew")
+
+    create_label_with_help(self, parent=self.config_choose, label_text="生成角色动力学所用大模型", tooltip_key="role_dynamics_llm_config", row=1, column=0, font=("Microsoft YaHei", 12))
+    role_dynamics_options = ["DeepSeek", "阿里云百炼", "OpenAI", "Azure OpenAI", "Azure AI", "Ollama", "ML Studio", "Gemini", "火山引擎", "硅基流动", "Grok"]
+    role_dynamics_dropdown = ctk.CTkOptionMenu(self.config_choose, values=role_dynamics_options, variable=self.role_dynamics_llm_var, font=("Microsoft YaHei", 12))
+    role_dynamics_dropdown.grid(row=1, column=1, padx=5, pady=5, sticky="nsew")
+
+    create_label_with_help(self, parent=self.config_choose, label_text="生成世界观设定所用大模型", tooltip_key="world_building_llm_config", row=2, column=0, font=("Microsoft YaHei", 12))
+    world_building_options = ["DeepSeek", "阿里云百炼", "OpenAI", "Azure OpenAI", "Azure AI", "Ollama", "ML Studio", "Gemini", "火山引擎", "硅基流动", "Grok"]
+    world_building_dropdown = ctk.CTkOptionMenu(self.config_choose, values=world_building_options, variable=self.world_building_llm_var, font=("Microsoft YaHei", 12))
+    world_building_dropdown.grid(row=2, column=1, padx=5, pady=5, sticky="nsew")
+
+    create_label_with_help(self, parent=self.config_choose, label_text="生成三幕式情节所用大模型", tooltip_key="three_scene_llm_config", row=3, column=0, font=("Microsoft YaHei", 12))
+    three_scene_options = ["DeepSeek", "阿里云百炼", "OpenAI", "Azure OpenAI", "Azure AI", "Ollama", "ML Studio", "Gemini", "火山引擎", "硅基流动", "Grok"]
+    three_scene_dropdown = ctk.CTkOptionMenu(self.config_choose, values=three_scene_options, variable=self.three_scene_llm_var, font=("Microsoft YaHei", 12))
+    three_scene_dropdown.grid(row=3, column=1, padx=5, pady=5, sticky="nsew")
+
+
+
+
+
+
+
 
 def load_config_btn(self):
     cfg = load_config(self.config_file)
