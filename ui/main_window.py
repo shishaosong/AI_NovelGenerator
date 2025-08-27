@@ -107,17 +107,6 @@ class NovelGeneratorGUI:
 
 
         # -- 生成配置相关 --
-        # self.core_seed_llm_var = ctk.StringVar(value=choose_configs.get("core_seed_llm", "DeepSeek"))
-        # self.role_dynamics_llm_var = ctk.StringVar(value=choose_configs.get("role_dynamics_llm", "DeepSeek"))
-        # self.world_building_llm_var = ctk.StringVar(value=choose_configs.get("world_building_llm", "DeepSeek"))
-        # self.three_scene_llm_var = ctk.StringVar(value=choose_configs.get("three_scene_llm", "DeepSeek"))
-        # self.chapter_outline_llm_var = ctk.StringVar(value=choose_configs.get("chapter_outline_llm", "DeepSeek"))
-        # self.summary_llm_var = ctk.StringVar(value=choose_configs.get("summary_llm", "DeepSeek"))
-        # self.character_state_llm_var = ctk.StringVar(value=choose_configs.get("character_state_llm", "DeepSeek"))
-        # self.chapter_content_llm_var = ctk.StringVar(value=choose_configs.get("chapter_content_llm", "DeepSeek"))
-        # self.prompt_draft_llm_var = ctk.StringVar(value=choose_configs.get("prompt_draft_llm", "DeepSeek"))
-        # self.analyze_character_llm_var = ctk.StringVar(value=choose_configs.get("analyze_character_llm", "DeepSeek"))
-
         self.architecture_llm_var = ctk.StringVar(value=choose_configs.get("architecture_llm", "DeepSeek"))
         self.chapter_outline_llm_var = ctk.StringVar(value=choose_configs.get("chapter_outline_llm", "DeepSeek"))
         self.final_chapter_llm_var = ctk.StringVar(value=choose_configs.get("final_chapter_llm", "DeepSeek"))
