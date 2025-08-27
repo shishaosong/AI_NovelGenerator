@@ -163,7 +163,31 @@ def build_ai_config_tab(self):
         if new_name != config_name:
             self.loaded_config["llm_configs"][new_name] = self.loaded_config["llm_configs"].pop(config_name)
             refresh_config_dropdown()
-        
+        embedding_config = {
+        "api_key": self.embedding_api_key_var.get(),
+        "base_url": self.embedding_url_var.get(),
+        "model_name": self.embedding_model_name_var.get(),
+        "retrieval_k": self.safe_get_int(self.embedding_retrieval_k_var, 4),
+        "interface_format": self.embedding_interface_format_var.get().strip()
+
+        }
+        other_params = {
+            "topic": self.topic_text.get("0.0", "end").strip(),
+            "genre": self.genre_var.get(),
+            "num_chapters": self.safe_get_int(self.num_chapters_var, 10),
+            "word_number": self.safe_get_int(self.word_number_var, 3000),
+            "filepath": self.filepath_var.get(),
+            "chapter_num": self.chapter_num_var.get(),
+            "user_guidance": self.user_guide_text.get("0.0", "end").strip(),
+            "characters_involved": self.characters_involved_var.get(),
+            "key_items": self.key_items_var.get(),
+            "scene_location": self.scene_location_var.get(),
+            "time_constraint": self.time_constraint_var.get()
+        }
+        self.loaded_config["embedding_configs"][self.embedding_interface_format_var.get().strip()] = embedding_config
+        self.loaded_config["other_params"] = other_params
+
+
         # 保存到JSON文件
         try:
             save_config(self.loaded_config, self.config_file)
@@ -484,7 +508,7 @@ def build_embeddings_config_tab(self):
 
     # 1) Embedding API Key
     create_label_with_help(self, parent=self.embeddings_config_tab, label_text="Embedding API Key:", tooltip_key="embedding_api_key", row=0, column=0, font=("Microsoft YaHei", 12))
-    emb_api_key_entry = ctk.CTkEntry(self.embeddings_config_tab, textvariable=self.embedding_api_key_var, font=("Microsoft YaHei", 12))
+    emb_api_key_entry = ctk.CTkEntry(self.embeddings_config_tab, textvariable=self.embedding_api_key_var, font=("Microsoft YaHei", 12), show="*")
     emb_api_key_entry.grid(row=0, column=1, padx=5, pady=5, sticky="nsew")
 
     # 2) Embedding 接口格式
