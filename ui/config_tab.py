@@ -200,6 +200,7 @@ def build_ai_config_tab(self):
         self.loaded_config["llm_configs"][new_name] = self.loaded_config["llm_configs"].pop(old_name)
         self.interface_config_var.set(new_name)
         refresh_config_dropdown()
+
         messagebox.showinfo("提示", f"配置已从 '{old_name}' 重命名为 '{new_name}'")
 
     # 初始化UI布局
@@ -548,19 +549,39 @@ def build_config_choose_tab(self):
         config_data["chapter_outline_llm"] = self.chapter_outline_llm_var.get()
         config_data["prompt_draft_llm"] = self.prompt_draft_llm_var.get()
         config_data["final_chapter_llm"] = self.final_chapter_llm_var.get()
+        config_data["consistency_review_llm"] = self.consistency_review_llm_var.get()
+
 
         config_data_full = load_config(self.config_file)
         config_data_full["choose_configs"] = config_data
         save_config(config_data_full, self.config_file)
         messagebox.showinfo("提示", "配置已保存。")
 
-    test_btn = ctk.CTkButton(
+    def refresh_config_dropdowns():
+        """刷新所有配置下拉菜单"""
+        config_names = list(self.loaded_config.get("llm_configs", {}).keys())
+        for dropdown in [architecture_dropdown, chapter_outline_dropdown, prompt_draft_dropdown, final_chapter_dropdown, consistency_review_dropdown]:
+            dropdown.configure(values=config_names)
+            if config_names and dropdown.cget("variable").get() not in config_names:
+                dropdown.cget("variable").set(config_names[0])
+
+    save_btn = ctk.CTkButton(
         self.config_choose, 
         text="保存配置", 
         command=save_config_choose,
         font=("Microsoft YaHei", 12)
     )
-    test_btn.grid(row=10, column=0, columnspan=3, padx=5, pady=5, sticky="ew")
+    save_btn.grid(row=10, column=0,padx=2, pady=2, sticky="ew")
+
+    refresh_btn = ctk.CTkButton(
+        self.config_choose, 
+        text="刷新配置", 
+        command=refresh_config_dropdowns,
+        font=("Microsoft YaHei", 12)
+    )
+    refresh_btn.grid(row=10, column=1, padx=2, pady=2, sticky="ew")
+
+
 
 
 
