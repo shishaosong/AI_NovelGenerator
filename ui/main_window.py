@@ -34,6 +34,8 @@ from ui.directory_tab import build_directory_tab, load_chapter_blueprint, save_c
 from ui.character_tab import build_character_tab, load_character_state, save_character_state
 from ui.summary_tab import build_summary_tab, load_global_summary, save_global_summary
 from ui.chapters_tab import build_chapters_tab, refresh_chapters_list, on_chapter_selected, load_chapter_content, save_current_chapter, prev_chapter, next_chapter
+from ui.other_settings import build_other_settings_tab
+
 
 class NovelGeneratorGUI:
     """
@@ -132,6 +134,10 @@ class NovelGeneratorGUI:
             self.scene_location_var = ctk.StringVar(value=op.get("scene_location", ""))
             self.time_constraint_var = ctk.StringVar(value=op.get("time_constraint", ""))
             self.user_guidance_default = op.get("user_guidance", "")
+            self.webdav_url_var = ctk.StringVar(value=op.get("webdav_url", ""))
+            self.webdav_username_var = ctk.StringVar(value=op.get("webdav_username", ""))
+            self.webdav_password_var = ctk.StringVar(value=op.get("webdav_password", ""))
+
         else:
             self.topic_default = ""
             self.genre_var = ctk.StringVar(value="玄幻")
@@ -159,6 +165,8 @@ class NovelGeneratorGUI:
         build_character_tab(self)
         build_summary_tab(self)
         build_chapters_tab(self)
+        build_other_settings_tab(self)
+
 
     # ----------------- 通用辅助函数 -----------------
     def show_tooltip(self, key: str):
