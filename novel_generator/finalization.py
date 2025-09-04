@@ -11,7 +11,13 @@ from prompt_definitions import summary_prompt, update_character_state_prompt
 from novel_generator.common import invoke_with_cleaning
 from utils import read_file, clear_file_content, save_string_to_txt
 from novel_generator.vectorstore_utils import update_vector_store
-
+logging.basicConfig(
+    filename='app.log',      # 日志文件名
+    filemode='a',            # 追加模式（'w' 会覆盖）
+    level=logging.INFO,      # 记录 INFO 及以上级别的日志
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+    datefmt='%Y-%m-%d %H:%M:%S'
+)
 def finalize_chapter(
     novel_number: int,
     word_number: int,
@@ -111,7 +117,7 @@ def enrich_chapter_text(
         max_tokens=max_tokens,
         timeout=timeout
     )
-    prompt = f"""以下章节文本较短，请在保持剧情连贯的前提下进行扩写，使其更充实，接近 {word_number} 字左右：
+    prompt = f"""以下章节文本较短，请在保持剧情连贯的前提下进行扩写，使其更充实，接近 {word_number} 字左右，仅给出最终文本，不要解释任何内容。：
 原内容：
 {chapter_text}
 """

@@ -26,13 +26,16 @@ from ui.generation_handlers import (
     do_consistency_check,
     import_knowledge_handler,
     clear_vectorstore_handler,
-    show_plot_arcs_ui
+    show_plot_arcs_ui,
+    generate_batch_ui
 )
 from ui.setting_tab import build_setting_tab, load_novel_architecture, save_novel_architecture
 from ui.directory_tab import build_directory_tab, load_chapter_blueprint, save_chapter_blueprint
 from ui.character_tab import build_character_tab, load_character_state, save_character_state
 from ui.summary_tab import build_summary_tab, load_global_summary, save_global_summary
 from ui.chapters_tab import build_chapters_tab, refresh_chapters_list, on_chapter_selected, load_chapter_content, save_current_chapter, prev_chapter, next_chapter
+from ui.other_settings import build_other_settings_tab
+
 
 class NovelGeneratorGUI:
     """
@@ -53,23 +56,27 @@ class NovelGeneratorGUI:
         self.loaded_config = load_config(self.config_file)
 
         if self.loaded_config:
-            last_llm = self.loaded_config.get("last_interface_format", "OpenAI")
+            last_llm = next(iter(self.loaded_config["llm_configs"].values())).get("interface_format", "OpenAI")
+
             last_embedding = self.loaded_config.get("last_embedding_interface_format", "OpenAI")
         else:
             last_llm = "OpenAI"
             last_embedding = "OpenAI"
 
-        if self.loaded_config and "llm_configs" in self.loaded_config and last_llm in self.loaded_config["llm_configs"]:
-            llm_conf = self.loaded_config["llm_configs"][last_llm]
-        else:
-            llm_conf = {
-                "api_key": "",
-                "base_url": "https://api.openai.com/v1",
-                "model_name": "gpt-4o-mini",
-                "temperature": 0.7,
-                "max_tokens": 8192,
-                "timeout": 600
-            }
+        # if self.loaded_config and "llm_configs" in self.loaded_config and last_llm in self.loaded_config["llm_configs"]:
+        #     llm_conf = next(iter(self.loaded_config["llm_configs"]))
+        # else:
+        #     llm_conf = {
+        #         "api_key": "",
+        #         "base_url": "https://api.openai.com/v1",
+        #         "model_name": "gpt-4o-mini",
+        #         "temperature": 0.7,
+        #         "max_tokens": 8192,
+        #         "timeout": 600
+        #     }
+        llm_conf = next(iter(self.loaded_config["llm_configs"].values()))
+        choose_configs = self.loaded_config.get("choose_configs", {})
+
 
         if self.loaded_config and "embedding_configs" in self.loaded_config and last_embedding in self.loaded_config["embedding_configs"]:
             emb_conf = self.loaded_config["embedding_configs"][last_embedding]
@@ -82,13 +89,17 @@ class NovelGeneratorGUI:
             }
 
         # -- LLM通用参数 --
+        # self.llm_conf_name = next(iter(self.loaded_config["llm_configs"]))
         self.api_key_var = ctk.StringVar(value=llm_conf.get("api_key", ""))
         self.base_url_var = ctk.StringVar(value=llm_conf.get("base_url", "https://api.openai.com/v1"))
-        self.interface_format_var = ctk.StringVar(value=last_llm)
+        self.interface_format_var = ctk.StringVar(value=llm_conf.get("interface_format", "OpenAI"))
         self.model_name_var = ctk.StringVar(value=llm_conf.get("model_name", "gpt-4o-mini"))
         self.temperature_var = ctk.DoubleVar(value=llm_conf.get("temperature", 0.7))
         self.max_tokens_var = ctk.IntVar(value=llm_conf.get("max_tokens", 8192))
         self.timeout_var = ctk.IntVar(value=llm_conf.get("timeout", 600))
+        self.interface_config_var = ctk.StringVar(value=next(iter(self.loaded_config["llm_configs"])))
+
+
 
         # -- Embedding相关 --
         self.embedding_interface_format_var = ctk.StringVar(value=last_embedding)
@@ -96,6 +107,18 @@ class NovelGeneratorGUI:
         self.embedding_url_var = ctk.StringVar(value=emb_conf.get("base_url", "https://api.openai.com/v1"))
         self.embedding_model_name_var = ctk.StringVar(value=emb_conf.get("model_name", "text-embedding-ada-002"))
         self.embedding_retrieval_k_var = ctk.StringVar(value=str(emb_conf.get("retrieval_k", 4)))
+
+
+        # -- 生成配置相关 --
+        self.architecture_llm_var = ctk.StringVar(value=choose_configs.get("architecture_llm", "DeepSeek"))
+        self.chapter_outline_llm_var = ctk.StringVar(value=choose_configs.get("chapter_outline_llm", "DeepSeek"))
+        self.final_chapter_llm_var = ctk.StringVar(value=choose_configs.get("final_chapter_llm", "DeepSeek"))
+        self.consistency_review_llm_var = ctk.StringVar(value=choose_configs.get("consistency_review_llm", "DeepSeek"))
+        self.prompt_draft_llm_var = ctk.StringVar(value=choose_configs.get("prompt_draft_llm", "DeepSeek"))
+
+
+
+
 
         # -- 小说参数相关 --
         if self.loaded_config and "other_params" in self.loaded_config:
@@ -111,6 +134,10 @@ class NovelGeneratorGUI:
             self.scene_location_var = ctk.StringVar(value=op.get("scene_location", ""))
             self.time_constraint_var = ctk.StringVar(value=op.get("time_constraint", ""))
             self.user_guidance_default = op.get("user_guidance", "")
+            self.webdav_url_var = ctk.StringVar(value=op.get("webdav_url", ""))
+            self.webdav_username_var = ctk.StringVar(value=op.get("webdav_username", ""))
+            self.webdav_password_var = ctk.StringVar(value=op.get("webdav_password", ""))
+
         else:
             self.topic_default = ""
             self.genre_var = ctk.StringVar(value="玄幻")
@@ -138,6 +165,8 @@ class NovelGeneratorGUI:
         build_character_tab(self)
         build_summary_tab(self)
         build_chapters_tab(self)
+        build_other_settings_tab(self)
+
 
     # ----------------- 通用辅助函数 -----------------
     def show_tooltip(self, key: str):
@@ -344,6 +373,7 @@ class NovelGeneratorGUI:
     generate_chapter_draft_ui = generate_chapter_draft_ui
     finalize_chapter_ui = finalize_chapter_ui
     do_consistency_check = do_consistency_check
+    generate_batch_ui = generate_batch_ui
     import_knowledge_handler = import_knowledge_handler
     clear_vectorstore_handler = clear_vectorstore_handler
     show_plot_arcs_ui = show_plot_arcs_ui
