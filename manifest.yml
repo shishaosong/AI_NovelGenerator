@@ -1,0 +1,9 @@
+# manifest.yml
+---
+applications:
+- name: ai-novel-generator   # 您可以自定义应用名称
+  memory: 102400M                # AI 和 NLP 应用可能需要更多内存，建议 512M 或更高
+  instances: 1
+  random-route: true
+  buildpack: python_buildpack
+  command: streamlit run main.py --server.port $PORT --server.headless true
